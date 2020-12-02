@@ -14,7 +14,6 @@ class AmazonBuyer (WebsiteBuyer):
     def __init__(self, driver, check_bought_across_websites):
         super(AmazonBuyer, self).__init__(driver, "amazon", amazon_product, refresh_seconds, check_bought_across_websites)
 
-
     def is_signed_in(self):
         account_btn = self.driver.find_element_by_id("nav-link-accountList")
         dnr_attr = account_btn.get_attribute("data-nav-ref")
@@ -24,7 +23,6 @@ class AmazonBuyer (WebsiteBuyer):
             return True
         else:
             raise Exception("Uncheckable signin status")
-
 
     def login(self):
         with self.wait_for_page_load():
@@ -42,18 +40,16 @@ class AmazonBuyer (WebsiteBuyer):
             # sign in
             self.driver.find_element_by_id("signInSubmit").click()
         
-
     def try_buy(self):
         try:
             buy_now_btn = self.driver.find_element_by_id("buy-now-button")
 
             with self.wait_for_page_load():
                 buy_now_btn.click()
-                print("cliccato il primo")
             
             self.driver.find_element_by_name("placeYourOrder1").click()
 
         except NoSuchElementException:
-            print("failed diok")
+            print("failed to buy")
             return False
         return True
